@@ -1,61 +1,99 @@
-link {
-    text-decoration: none;
-}
-
-.header {
+.app-header {
+    background-color: darkgray;
+    height: 50px;
+    padding: 10px 32px 10px 16px;
     z-index: 1;
     position: fixed;
     top: 0;
     width: 100%;
-    background-color: #263238;
-}
-
-.innerHeader {
-    padding: 16px 8px 16px 8px;
     display: flex;
     justify-content: space-between;
 }
 
-.logo {
+.login-button {
+    float: right;
+    display: flex;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 2%;
+}
+
+.app-logo {
+    background: white;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #fff;
-    font-size: 18px;
-    padding: 12px 12px;
-}
-
-br,
-.unselectable {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-
-.loggedInUserOptions {
-    float: right;
-    display: flex;
+    flot: left;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .search {
-    background-color: #c0c0c0;
+    background-color: darkgray;
     display: flex;
     border-radius: 4px;
-    width: 300px;
+    width: 350px;
     height: 45px;
-    margin-right: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    align-self: center;
+}
+.searchInput{
+    width: 300px;
+    color: white;
+}
+.MuiInput-colorSecondary{
+    color: white;
+}
+.MuiInput-underline{
+    color: black;
 }
 
 .searchIcon {
     padding: 3%;
+    color: white;
 }
 
-.menuItemSeperator {
-    width: 70%;
-    align-self: center;
-    margin-top: 0;
-    margin-bottom: 0;
+.searchInput::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: white;
+}
+
+.aacountCircle{
+    padding: 5%;
+}
+
+.bookshow-button {
+    float: right;
+    margin-right: 8px;
+}
+
+.tabs {
+    margin-bottom: 20px;
+}
+
+.dispNone {
+    display: none;
+}
+
+.dispBlock {
+    display: block;
+}
+
+.red {
+    color: red;
+}
+
+@media (max-width: 992px) {
+    .flex-container {
+        flex-direction: column;
+    }
+    .left {
+        width: 100%;
+    }
+    .right {
+        width: 90%;
+    }
+    .released-movie-grid-item {
+        margin: 8px;
+    }
 }
