@@ -80,30 +80,8 @@ class Home extends Component {
         this.setState({ movieName: event.target.value });
     }
 
-    movieClickHandler = (movieId) => {
-        this.props.history.push('/movie/' + movieId);
-    }
-
-    filterApplyHandler = () => {
-        let queryString = "";
-        if (this.state.movieName !== "") {
-            queryString += "&restaurant_name=" + this.state.restaurantName;
-        }
-
-        let that = this;
-        let dataFilter = null;
-        let xhrFilter = new XMLHttpRequest();
-        xhrFilter.addEventListener("readystatechange", function () {
-            if (this.readyState === 4) {
-                that.setState({
-                    releasedMovies: JSON.parse(this.responseText).restaurants
-                });
-            }
-        });
-
-        xhrFilter.open("GET", this.props.baseUrl + "restaurant/name/" + encodeURI(queryString));
-        xhrFilter.setRequestHeader("Cache-Control", "no-cache");
-        xhrFilter.send(dataFilter);
+    restaurantClickHandler = (restaurantId) => {
+        this.props.history.push('/restaurant/' + restaurantId);
     }
 
     render() {
@@ -116,7 +94,7 @@ class Home extends Component {
                     <div className="left">
                         <GridList cellHeight={350} cols={4} className={classes.gridListMain}>
                             {this.state.allRestaurant.map(restaurant => (
-                                <GridListTile onClick={() => this.movieClickHandler(restaurant.id)} className="released-movie-grid-item" key={"grid" + restaurant.id}>
+                                <GridListTile onClick={() => this.restaurantClickHandler(restaurant.id)} className="released-movie-grid-item" key={"grid" + restaurant.id}>
                                     <img src={restaurant.photo_URL} className="movie-poster" alt={restaurant.restaurant_name} />
                                     <GridListTileBar
                                         title={restaurant.restaurant_name}

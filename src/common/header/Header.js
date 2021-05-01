@@ -65,6 +65,7 @@ class Header extends Component {
         this.state = {
             open: false,
             modalIsOpen: false,
+            allRestaurant: [],
             value: 0,
             usernameRequired: "dispNone",
             username: "",
@@ -81,6 +82,7 @@ class Header extends Component {
             contactRequired: "dispNone",
             contact: "",
             registrationSuccess: false,
+            restaurantName: "",
             loggedIn: sessionStorage.getItem("access-token") == null ? false : true
         }
     }
@@ -118,16 +120,15 @@ class Header extends Component {
         this.setState({ value });
     }
 
-/*    const Search = (props) => {
-        const searchItems = (e) => {
-            props.filterCaptions(e.target.value)
-        }  onChange={searchItems}
-    }*/
-
-
     loginClickHandler = () => {
         this.state.username === "" ? this.setState({ usernameRequired: "dispBlock" }) : this.setState({ usernameRequired: "dispNone" });
         this.state.loginPassword === "" ? this.setState({ loginPasswordRequired: "dispBlock" }) : this.setState({ loginPasswordRequired: "dispNone" });
+
+        if(!(validator.default.isNumeric(this.state.username) && (this.state.username.length === 10)) && (this.state.username.length>0)){
+            this.setState({validateContact: "dispBlock"});
+        }else{
+            this.setState({validateContact: "dispNone"});
+        }
 
         let dataLogin = null;
         let xhrLogin = new XMLHttpRequest();
@@ -145,7 +146,7 @@ class Header extends Component {
             }
         });
 
-        xhrLogin.open("POST", this.props.baseUrl + "auth/login");
+        xhrLogin.open("POST", this.props.baseUrl + "customer/login");
         xhrLogin.setRequestHeader("Authorization", "Basic " + window.btoa(this.state.username + ":" + this.state.loginPassword));
         xhrLogin.setRequestHeader("Content-Type", "application/json");
         xhrLogin.setRequestHeader("Cache-Control", "no-cache");
@@ -205,7 +206,7 @@ class Header extends Component {
             }
         });
 
-        xhrSignup.open("POST", this.props.baseUrl + "signup");
+        xhrSignup.open("POST", this.props.baseUrl + "customer/signup");
         xhrSignup.setRequestHeader("Content-Type", "application/json");
         xhrSignup.setRequestHeader("Cache-Control", "no-cache");
         xhrSignup.send(dataSignup);
@@ -231,6 +232,31 @@ class Header extends Component {
         this.setState({ contact: e.target.value });
     }
 
+    searchRestaurantChangeHandler = (e) =>{
+        this.setState({restaurantName: e.target.value});
+
+        let queryString = null;
+        if (this.state.restaurantName !== "") {
+            queryString += this.state.restaurantName.value;
+        }
+        console.log(queryString);
+        console.log(this.state.restaurantName.value);
+        let that = this;
+        let dataFilter = null;
+        let xhrFilter = new XMLHttpRequest();
+        xhrFilter.addEventListener("readystatechange", function () {
+            if (this.readyState === 4) {
+                that.setState({
+                    allRestaurant: JSON.parse(this.responseText).restaurants
+                });
+            }
+        });
+        console.log(encodeURI(queryString));
+        xhrFilter.open("GET", this.props.baseUrl + "restaurant/name/" + encodeURI(queryString));
+        xhrFilter.setRequestHeader("Cache-Control", "no-cache");
+        xhrFilter.send(dataFilter);
+    }
+
     logoutHandler = (e) => {
         sessionStorage.removeItem("uuid");
         sessionStorage.removeItem("access-token");
@@ -252,7 +278,9 @@ class Header extends Component {
                             <SearchIcon />
                         </div>
                         <Input  className="searchInput" disableUnderline={false} placeholder="Search by Restaurant Name"
-                               InputProps={{ classes: {input: this.props.classes['input']} }} />
+                               InputProps={{ classes: {input: this.props.classes['input']} }}
+                                onChange = {this.searchRestaurantChangeHandler}
+                        />
                     </div>
 
                     {!this.state.loggedIn ?
@@ -309,6 +337,9 @@ class Header extends Component {
                             <FormHelperText className={this.state.usernameRequired}>
                                 <span className="red">required</span>
                             </FormHelperText>
+                            <FormHelperText className={this.state.validateContact}>
+                                <span className="red">Invalid Contact</span>
+                            </FormHelperText>
                         </FormControl>
                         <br /><br />
                         <FormControl required>
@@ -320,11 +351,14 @@ class Header extends Component {
                         </FormControl>
                         <br /><br />
                         {this.state.loggedIn === true &&
-                        <FormControl>
-                                    <span className="successText">
-                                        Login Successful!
-                                    </span>
-                        </FormControl>
+                        <Snackbar className = "my-snakbar"
+                                  anchorOrigin={{
+                                      vertical: 'bottom',
+                                      horizontal: 'left',
+                                  }}
+                                  open={this.state.open}
+                                  autoHideDuration={2000}
+                                  message="Logged in successfully!" />
                         }
                         <br /><br />
                         <Button variant="contained" color="primary" onClick={this.loginClickHandler}>LOGIN</Button>
@@ -386,21 +420,17 @@ class Header extends Component {
                         </FormControl>
                         <br /><br />
                         {this.state.registrationSuccess === true &&
-                                <FormControl>
-                                            <span className="successText">
-                                              </span>
-                                </FormControl>
+                        <Snackbar className = "my-snakbar"
+                                  anchorOrigin={{
+                                      vertical: 'bottom',
+                                      horizontal: 'left',
+                                  }}
+                                  open={this.state.open}
+                                  autoHideDuration={2000}
+                                  message="Registered successfully! Please login now!" />
                         }
                         <br /><br />
                         <Button variant="contained" color="primary" onClick={this.registerClickHandler}>SIGNUP</Button>
-                        <Snackbar className = "my-snakbar"
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'left',
-                            }}
-                            open={this.state.open}
-                            autoHideDuration={2000}
-                            message="Registered successfully! Please login now!" />
                     </TabContainer>
                     }
                 </Modal>
