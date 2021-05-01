@@ -4,7 +4,8 @@ import Button from '@material-ui/core/Button';
 import FastfoodIcon from '@material-ui/icons/Fastfood';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import { withStyles } from '@material-ui/styles';
+import { withStyles } from '@material-ui/core/styles';
+import validator from 'validator';
 import Snackbar from '@material-ui/core/Snackbar';
 import Modal from 'react-modal';
 import Tabs from '@material-ui/core/Tabs';
@@ -100,7 +101,11 @@ class Header extends Component {
             registerPasswordRequired: "dispNone",
             registerPassword: "",
             contactRequired: "dispNone",
-            contact: ""
+            contact: "",
+            validEmailError: "dispNone",
+            validateStrongPassword: "dispNone",
+            validateContact: "dispNone",
+            validateExistingContact: "dispNone"
         });
     }
 
@@ -160,6 +165,24 @@ class Header extends Component {
         this.state.email === "" ? this.setState({ emailRequired: "dispBlock" }) : this.setState({ emailRequired: "dispNone" });
         this.state.registerPassword === "" ? this.setState({ registerPasswordRequired: "dispBlock" }) : this.setState({ registerPasswordRequired: "dispNone" });
         this.state.contact === "" ? this.setState({ contactRequired: "dispBlock" }) : this.setState({ contactRequired: "dispNone" });
+        if(!validator.default.isEmail(this.state.email) && (this.state.email.length>0)){
+            this.setState({validEmailError: "dispBlock"});
+        }else{
+            this.setState({validEmailError: "dispNone"});
+        }
+        if(!validator.default.isStrongPassword(this.state.registerPassword) && (this.state.registerPassword.length>0)){
+            this.setState({validateStrongPassword: "dispBlock"});
+        }else{
+            this.setState({validateStrongPassword: "dispNone"});
+        }
+        if(!(validator.default.isNumeric(this.state.contact) && (this.state.contact.length === 10)) && (this.state.contact.length>0)){
+            this.setState({validateContact: "dispBlock"});
+        }else{
+            this.setState({validateContact: "dispNone"});
+        }
+        if(false){
+
+        }
 
         let dataSignup = JSON.stringify({
             "email_address": this.state.email,
@@ -225,7 +248,7 @@ class Header extends Component {
                         <div className="searchIcon">
                             <SearchIcon />
                         </div>
-                        <Input color={"primary"} className="searchInput" disableUnderline={false} placeholder="Search by Restaurant Name"
+                        <Input  className="searchInput" disableUnderline={false} placeholder="Search by Restaurant Name"
                                InputProps={{ classes: {input: this.props.classes['input']} }} />
                     </div>
 
@@ -329,6 +352,9 @@ class Header extends Component {
                             <FormHelperText className={this.state.emailRequired}>
                                 <span className="red">required</span>
                             </FormHelperText>
+                            <FormHelperText className={this.state.validEmailError}>
+                                <span className="red">Invalid Email</span>
+                            </FormHelperText>
                         </FormControl>
                         <br /><br />
                         <FormControl required>
@@ -337,6 +363,9 @@ class Header extends Component {
                             <FormHelperText className={this.state.registerPasswordRequired}>
                                 <span className="red">required</span>
                             </FormHelperText>
+                            <FormHelperText className={this.state.validateStrongPassword}>
+                                <span className="red">Password must contain at least one capital letter, one small letter, one number, and one special character</span>
+                            </FormHelperText>
                         </FormControl>
                         <br /><br />
                         <FormControl required>
@@ -344,6 +373,12 @@ class Header extends Component {
                             <Input id="contact" type="text" contact={this.state.contact} onChange={this.inputContactChangeHandler} />
                             <FormHelperText className={this.state.contactRequired}>
                                 <span className="red">required</span>
+                            </FormHelperText>
+                            <FormHelperText className={this.state.validateContact}>
+                                <span className="red">Contact No. must contain only numbers and must be 10 digits long</span>
+                            </FormHelperText>
+                            <FormHelperText className={this.state.validateExistingContact}>
+                                <span className="red">This contact number is already registered! Try other contact number.</span>
                             </FormHelperText>
                         </FormControl>
                         <br /><br />

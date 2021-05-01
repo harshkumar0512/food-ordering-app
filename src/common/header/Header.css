@@ -54,7 +54,7 @@
     color: white;
 }
 
-.searchInput::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+Input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
     color: white;
 }
 
