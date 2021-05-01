@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component, useState} from 'react';
 import './Header.css';
 import Button from '@material-ui/core/Button';
 import FastfoodIcon from '@material-ui/icons/Fastfood';
@@ -63,6 +63,7 @@ class Header extends Component {
     constructor() {
         super();
         this.state = {
+            open: false,
             modalIsOpen: false,
             value: 0,
             usernameRequired: "dispNone",
@@ -183,6 +184,8 @@ class Header extends Component {
         if(false){
 
         }
+
+        this.setState({ open: true });
 
         let dataSignup = JSON.stringify({
             "email_address": this.state.email,
@@ -383,14 +386,21 @@ class Header extends Component {
                         </FormControl>
                         <br /><br />
                         {this.state.registrationSuccess === true &&
-                        <FormControl>
-                                    <span className="successText">
-                                        Registered successfully! Please login now!
-                                      </span>
-                        </FormControl>
+                                <FormControl>
+                                            <span className="successText">
+                                              </span>
+                                </FormControl>
                         }
                         <br /><br />
                         <Button variant="contained" color="primary" onClick={this.registerClickHandler}>SIGNUP</Button>
+                        <Snackbar className = "my-snakbar"
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'left',
+                            }}
+                            open={this.state.open}
+                            autoHideDuration={2000}
+                            message="Registered successfully! Please login now!" />
                     </TabContainer>
                     }
                 </Modal>

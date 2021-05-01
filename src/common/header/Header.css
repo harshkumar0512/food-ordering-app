@@ -58,6 +58,10 @@ Input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
     color: white;
 }
 
+.my-snakbar{
+    float: left;
+}
+
 .aacountCircle{
     padding: 5%;
 }

@@ -6,7 +6,7 @@ class Controller extends Component {
 
     constructor() {
         super();
-        this.baseUrl = "http://localhost:3030/api/v1/";
+        this.baseUrl = "http://localhost:8080/api/";
     }
     render() {
         return (
