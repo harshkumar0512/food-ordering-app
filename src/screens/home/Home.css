@@ -1,49 +1,38 @@
-::-webkit-scrollbar {
-    width: 4px;
+/* 4 Column Grid */
+.grid-container {
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
 }
 
-::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 5px grey;
-    border-radius: 4px;
+.trailer {
+    display:flex;
 }
 
-::-webkit-scrollbar-thumb {
-    background: grey;
-    border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: grey;
-}
-
-.movie-poster {
-    height: 100%;
-    width: auto;
-}
-
-.flex-container {
+.star-box {
+    flex:1;
     display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background-color:yellowgreen;
+    height: 30px;
+    width: 100px;
+    color: white;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
-.flex-container>div {
-    margin: 16px;
+.rupee {
+    flex:1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 10px;
 }
 
-.released-movie-grid-item {
-    margin: 15px;
-}
+@media only screen and (max-width: 600px) { /* screen responsiveness */
+    .grid-container {
+        display: grid;
+        grid-template-columns: 100%;
+    }
 
-@media (max-width: 992px) {
-    .flex-container {
-        flex-direction: column;
-    }
-    .left {
-        width: 100%;
-    }
-    .right {
-        width: 90%;
-    }
-    .released-movie-grid-item {
-        margin: 8px;
-    }
 }

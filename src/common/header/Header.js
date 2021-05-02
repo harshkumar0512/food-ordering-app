@@ -203,6 +203,8 @@ class Header extends Component {
                 that.setState({
                     registrationSuccess: true
                 });
+                that.closeModalHandler();
+                that.openModalHandler(); //to show login page
             }
         });
 
@@ -309,7 +311,7 @@ class Header extends Component {
                         ? <div className="bookshow-button">
                             <Link to={"/bookshow/" + this.props.id}>
                                 <Button variant="contained" color="primary">
-                                    Book Show
+                                    {this.state.firstname}
                                 </Button>
                             </Link>
                         </div>
