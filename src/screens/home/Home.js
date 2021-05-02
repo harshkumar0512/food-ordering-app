@@ -49,11 +49,11 @@ class Home extends Component {
                                         color="textSecondary">loading...</Typography>
                             : ""
                         }
-                        <div className={this.state.restaurants.length === 0 ? "noRestaurantMsg" : "card-container"}>
+                        <div className={this.state.restaurants === null ? "noRestaurantMsg" : "card-container"}>
                             {
-                                this.state.restaurants.length === 0 && this.state.loading !== true ?
-                                    <Typography variant="h6">
-                                        No restaurant with the given name.
+                                this.state.restaurants === null && this.state.loading !== true ?
+                                    <Typography variant="div">
+                                         No restaurant with the given name.
                                     </Typography>
                                     :
                                     this.state.restaurants.map(restaurant => (
