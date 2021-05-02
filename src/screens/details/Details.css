@@ -1,15 +1,15 @@
 .details-container {
     width: 100%;
-}
-
-.restaurant-detail-container {
-    background-color: #E8E8E8;
-    width: 100%;
     height: 100%;
 }
 
+.restaurant-detail-container {
+    display: flex;
+    width: 100%;
+}
+
 .restaurant-image-container {
-    background-color: red;
+    background-color: #E8E8E8;
     width: 25%;
     height: 100%;
     float: left;
@@ -22,8 +22,8 @@
 }
 
 .restaurant-info-container {
+    background-color: #E8E8E8;
     width: 75%;
-    background-color: yellow;
     float: right;
     height: 100%;
 }
@@ -31,7 +31,6 @@
 .restaurant-info {
     height: 100%;
     margin: 3%;
-    background-color: green;
 }
 
 .restaurant-title {
@@ -43,7 +42,7 @@
 
 .restaurant-locality {
     font-size: 120%;
-    text-transform: capitalize;
+    text-transform: uppercase;
     text-align: left;
 }
 
@@ -75,8 +74,46 @@
     text-align: left;
 }
 
-.title-text{
-    color:grey;
+.bottom-container {
+    background-color: yellow;
+    display: flex;
+    width: 100%;
+}
+
+.menu-container {
+    background-color: pink;
+    width: 60%;
+    margin: 2.5%;
+}
+
+.cart-container {
+    background-color: red;
+    width: 40%;
+    height: 100%;
+}
+
+.category-divider {
+    padding: 0px;
+    margin: 0px;
+}
+
+.VEG {
+    color: green;
+}
+
+.NON_VEG {
+    color: red;
+}
+
+.item-name {
+    margin: 0;
+    padding: 0;
+    text-transform: capitalize;
+    text-align: left;
+}
+
+.title-text {
+    color: grey;
 }
 
 .bold {
@@ -84,6 +121,9 @@
 }
 
 @media (max-width: 992px) {
+    .restaurant-detail-container {
+        display: block;
+    }
     .restaurant-image-container {
         width: 100%;
     }
@@ -113,5 +153,14 @@
     }
     .restaurant-rating {
         text-align: center;
+    }
+    .bottom-container {
+        display: block;
+    }
+    .menu-container {
+        width: 95%;
+    }
+    .cart-container {
+        width: 100%;
     }
 }

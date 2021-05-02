@@ -71,6 +71,10 @@ class Details extends Component {
         xhrRestaurants.send(data);
     }
 
+    addItemClickHandler(item) {
+        console.log(item);
+    }
+
     render() {
 
         const restaurantDetail = this.state.restaurantDetail;
@@ -89,15 +93,15 @@ class Details extends Component {
                     <div className='restaurant-info-container'>
                         <div className='restaurant-info'>
                             <p className='restaurant-title'>{restaurantDetail.restaurant_name}</p>
-                            <p className='restaurant-locality'>{address.locality}</p>
-                            <p className='restaurant-categories'>
+                            <p className='restaurant-locality' style={{ marginTop: '3%' }}>{address.locality}</p>
+                            <p className='restaurant-categories' style={{ marginTop: '3%' }}>
                                 {categories.map((category) =>
                                 (
                                     <span className="category-item" key={category.id}>{category.category_name}</span>
                                 )
                                 )}
                             </p>
-                            <div className='restaurant-rating-cost' style={{margin: '1%'}}>
+                            <div className='restaurant-rating-cost' style={{ marginTop: '3%' }}>
                                 <div className='restaurant-rating'>
                                     <FontAwesomeIcon icon="star" /> {restaurantDetail.customer_rating}
                                     <p className="title-text">AVERAGE RATING BY<span
@@ -109,6 +113,42 @@ class Details extends Component {
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div className='bottom-container'>
+                    <div className='menu-container'>
+                        {categories.map((category) =>
+                        (
+                            <div key={category.id}>
+                                <p style={{ textTransform: 'uppercase' }}>{category.category_name}</p>
+                                <Divider className="category-divider" />
+                                {category.item_list.map((item) => (
+                                    <table key={item.id}>
+                                        <tbody>
+                                            <tr>
+                                                <td width='10%' className={item.item_type}>
+                                                    <FontAwesomeIcon icon="circle" />
+                                                </td>
+                                                <td width="65%" className="item-name">
+                                                    {item.item_name}
+                                                </td>
+                                                <td width="20%">
+                                                    <FontAwesomeIcon icon="rupee-sign" /> {(item.price).toFixed(2)}
+                                                </td>
+                                                <td>
+                                                    <IconButton onClick={() => this.addItemClickHandler(item)} >
+                                                        <Add />
+                                                    </IconButton>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                ))}
+                            </div>
+                        ))}
+                    </div>
+                    <div className='cart-container'>
+                        Hello he
                     </div>
                 </div>
             </div>
