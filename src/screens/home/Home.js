@@ -53,7 +53,7 @@ class Home extends Component {
                             {
                                 this.state.restaurants === null && this.state.loading !== true ?
                                     <Typography variant="div">
-                                         No restaurant with the given name.
+                                        No restaurant with the given name.
                                     </Typography>
                                     :
                                     this.state.restaurants.map(restaurant => (

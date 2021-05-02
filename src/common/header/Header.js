@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { createMuiTheme, ThemeProvider, } from '@material-ui/core/styles';
+import React, {Component} from "react";
+import {createMuiTheme, ThemeProvider,} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton'
 import AppBar from '@material-ui/core/AppBar';
@@ -24,7 +24,7 @@ import * as PropTypes from "prop-types";
 import './Header.css'
 import * as EmailVaildator from "email-validator";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import Notification from "../../common/notification/Notification";
 
 
@@ -99,7 +99,7 @@ const withMediaQuery = () => Component => props => {
 
 const TabContainer = function (props) {
     return (
-        <Typography component="div" style={{ padding: 0, textAlign: 'center' }}>
+        <Typography component="div" style={{padding: 0, textAlign: 'center'}}>
             {props.children}
         </Typography>
     );
@@ -184,21 +184,21 @@ class Header extends Component {
 
     //closing modal
     closeModal = () => {
-        this.setState({ modalIsOpen: false })
+        this.setState({modalIsOpen: false})
     }
 
     //changing the tab on modal
     onTabChange = (event, value) => {
-        this.setState({ value });
+        this.setState({value});
     }
 
 
     openMenuHandler = (event) => {
-        this.setState({ anchorEl: event.currentTarget });
+        this.setState({anchorEl: event.currentTarget});
     };
 
     handleMenuClose = () => {
-        this.setState({ anchorEl: null });
+        this.setState({anchorEl: null});
     }
 
     //clearing the session variables on logout
@@ -233,7 +233,7 @@ class Header extends Component {
                     'Content-Type': 'application/json',
                     'authorization': "Basic " + window.btoa(this.state.contactno + ":" + this.state.password)
                 }
-                fetch("http://localhost:8080/api/customer/login", { method: 'POST', headers }).then(function (response) {
+                fetch("http://localhost:8080/api/customer/login", {method: 'POST', headers}).then(function (response) {
                     if (response.status === 200) {
                         //set session variable access token.
                         sessionStorage.setItem("access-token", response.headers.get('access-token'));
@@ -248,16 +248,16 @@ class Header extends Component {
                     sessionStorage.setItem("first-name", data.first_name)
                     //set state variables in case of successful login
                     that.showNotification(that.loggedinMessage);
-                    that.setState({ loginErrorSpan: 'dispNone' })
-                    that.setState({ value: 0 });
-                    that.setState({ loggedIn: true });
+                    that.setState({loginErrorSpan: 'dispNone'})
+                    that.setState({value: 0});
+                    that.setState({loggedIn: true});
                     that.closeModal();
 
                 }).catch(err => {
                     err.text().then(errorMessage => {
                         //display error in case of failure to login
-                        that.setState({ loginErrorSpan: 'dispBlock' })
-                        that.setState({ loginError: JSON.parse(errorMessage) })
+                        that.setState({loginErrorSpan: 'dispBlock'})
+                        that.setState({loginError: JSON.parse(errorMessage)})
                     })
                 })
             }
@@ -299,7 +299,7 @@ class Header extends Component {
                 "contact_number": this.state.signUpContactno,
                 "password": this.state.signUpPassword,
             })
-            const headers = { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+            const headers = {'Accept': 'application/json', 'Content-Type': 'application/json'}
             fetch("http://localhost:8080/api/customer/signup", {
                 method: 'POST',
                 headers,
@@ -307,9 +307,9 @@ class Header extends Component {
             }).then(function (response) {
                 if (response.status === 201) {
                     //set state variables on successful registration
-                    that.setState({ signUpErrorSpan: 'dispNone' })
-                    that.setState({ signUpError: {} })
-                    that.setState({ value: 0 });
+                    that.setState({signUpErrorSpan: 'dispNone'})
+                    that.setState({signUpError: {}})
+                    that.setState({value: 0});
                     that.showNotification(that.signedUpMessage);
                     return response.json();
                 } else {
@@ -318,8 +318,8 @@ class Header extends Component {
             }).catch(err => {
                 ////set state variables on failure to register the user
                 err.text().then(errorMessage => {
-                    that.setState({ signUpErrorSpan: 'dispBlock' })
-                    that.setState({ signUpError: JSON.parse(errorMessage) })
+                    that.setState({signUpErrorSpan: 'dispBlock'})
+                    that.setState({signUpError: JSON.parse(errorMessage)})
                 })
             })
         }
@@ -328,68 +328,68 @@ class Header extends Component {
 
     isFirstNameEmpty = (firstname) => {
         if (firstname === "") {
-            this.setState({ firstNameRequired: 'dispBlock' })
+            this.setState({firstNameRequired: 'dispBlock'})
             return true;
         } else {
-            this.setState({ firstNameRequired: 'dispNone' })
+            this.setState({firstNameRequired: 'dispNone'})
             return false;
         }
     }
 
     isEmailEmpty = (email) => {
         if (email === "") {
-            this.setState({ emailRequired: 'dispBlock' })
+            this.setState({emailRequired: 'dispBlock'})
             return true;
         } else {
-            this.setState({ emailRequired: 'dispNone' })
+            this.setState({emailRequired: 'dispNone'})
             return false;
         }
     }
 
     isContactNumberEmpty = (contactno) => {
         if (contactno === "") {
-            this.setState({ signUpcontactnoRequired: 'dispBlock' })
+            this.setState({signUpcontactnoRequired: 'dispBlock'})
             return true;
         } else {
-            this.setState({ signUpcontactnoRequired: 'dispNone' })
+            this.setState({signUpcontactnoRequired: 'dispNone'})
             return false;
         }
     }
     isContactNumberEmptyForLogin = (contactno) => {
         if (contactno === "") {
-            this.setState({ contactnoRequired: 'dispBlock' })
+            this.setState({contactnoRequired: 'dispBlock'})
             return true;
         } else {
-            this.setState({ contactnoRequired: 'dispNone' })
+            this.setState({contactnoRequired: 'dispNone'})
             return false;
         }
     }
     isPasswordEmpty = (password) => {
         if (password === "") {
-            this.setState({ signUpPasswordRequired: 'dispBlock' })
+            this.setState({signUpPasswordRequired: 'dispBlock'})
             return true;
         } else {
-            this.setState({ signUpPasswordRequired: 'dispNone' })
+            this.setState({signUpPasswordRequired: 'dispNone'})
             return false;
         }
     }
 
     isPasswordEmptyForLogin = (password) => {
         if (password === "") {
-            this.setState({ passwordRequired: 'dispBlock' })
+            this.setState({passwordRequired: 'dispBlock'})
             return true;
         } else {
-            this.setState({ passwordRequired: 'dispNone' })
+            this.setState({passwordRequired: 'dispNone'})
             return false;
         }
     }
     isEmailIdValid = (email) => {
         let isValid = EmailVaildator.validate(email)
         if (!isValid && !this.isEmailEmpty(email)) {
-            this.setState({ emailInvalid: 'dispBlock' })
+            this.setState({emailInvalid: 'dispBlock'})
             return false;
         } else {
-            this.setState({ emailInvalid: 'dispNone' })
+            this.setState({emailInvalid: 'dispNone'})
             return true;
         }
     }
@@ -397,10 +397,10 @@ class Header extends Component {
     isValidContactNo = (contactno) => {
         const isValidContactNo = new RegExp('^\\d{10}$');
         if (!isValidContactNo.test(contactno) && !this.isContactNumberEmpty(contactno)) {
-            this.setState({ signUpcontactInvalid: 'dispBlock' })
+            this.setState({signUpcontactInvalid: 'dispBlock'})
             return true;
         } else {
-            this.setState({ signUpcontactInvalid: 'dispNone' })
+            this.setState({signUpcontactInvalid: 'dispNone'})
             return false;
         }
     }
@@ -408,10 +408,10 @@ class Header extends Component {
     isValidContactNoForLogin = (contactno) => {
         const isValidContactNo = new RegExp('^\\d{10}$');
         if (isValidContactNo.test(contactno)) {
-            this.setState({ loginContactInvalid: 'dispNone' });
+            this.setState({loginContactInvalid: 'dispNone'});
             return true;
         } else {
-            this.setState({ loginContactInvalid: 'dispBlock' });
+            this.setState({loginContactInvalid: 'dispBlock'});
             return false;
         }
     }
@@ -419,37 +419,37 @@ class Header extends Component {
     isPasswordValid = (password) => {
         const isValidPassword = new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$');
         if (!isValidPassword.test(password) && !this.isPasswordEmpty(password)) {
-            this.setState({ signUpPasswordInvalid: 'dispBlock' })
+            this.setState({signUpPasswordInvalid: 'dispBlock'})
             return false;
         } else {
-            this.setState({ signUpPasswordInvalid: 'dispNone' })
+            this.setState({signUpPasswordInvalid: 'dispNone'})
             return true;
         }
     }
 
     onContactNumberChange = (e) => {
-        this.setState({ contactno: e.target.value })
+        this.setState({contactno: e.target.value})
     }
     onSignUpContactNumberChange = (e) => {
-        this.setState({ signUpContactno: e.target.value })
+        this.setState({signUpContactno: e.target.value})
     }
     onPasswordChange = (e) => {
-        this.setState({ password: e.target.value })
+        this.setState({password: e.target.value})
     }
     onSignUpPasswordChange = (e) => {
-        this.setState({ signUpPassword: e.target.value })
+        this.setState({signUpPassword: e.target.value})
     }
     onChangeOfFirstName = (e) => {
-        this.setState({ firstName: e.target.value })
+        this.setState({firstName: e.target.value})
     }
     onChangeOfLastName = (e) => {
-        this.setState({ lastName: e.target.value })
+        this.setState({lastName: e.target.value})
     }
     onChangeOfEmail = (e) => {
-        this.setState({ email: e.target.value })
+        this.setState({email: e.target.value})
     }
-    showNotification = (message) => this.setState({ messageText: message, notificationOpen: true });
-    closeNotification = () => this.setState({ messageText: null, notificationOpen: false });
+    showNotification = (message) => this.setState({messageText: message, notificationOpen: true});
+    closeNotification = () => this.setState({messageText: null, notificationOpen: false});
 
 
     render() {
@@ -459,7 +459,7 @@ class Header extends Component {
                     {/*checking for screen size to make app responsive in smaller screen*/}
                     <Toolbar style={this.props.isSmallScreen ? css.toolBarSM : css.toolBar}>
                         <IconButton edge="start" color="inherit">
-                            <FastfoodIcon />
+                            <FastfoodIcon fontSize={"large"}/>
                         </IconButton>
                         {
                             this.props.showSearch === true ? <Box className="search" style={css.search}>
@@ -468,7 +468,7 @@ class Header extends Component {
                                            placeholder={'Search by Restaurant Name'}
                                            startAdornment={
                                                <InputAdornment position="start" color="primary">
-                                                   <SearchIcon className="mag-glass" color="primary" />
+                                                   <SearchIcon className="mag-glass" color="primary"/>
                                                </InputAdornment>
                                            }
                                            onChange={this.props.searchHandler}>
@@ -477,14 +477,14 @@ class Header extends Component {
                             </Box> : null
                         }
                         {/*checking for screen size to make app responsive in smaller screen*/}
-                        {this.props.isSmallScreen ? <br /> : null}
+                        {this.props.isSmallScreen ? <br/> : null}
                         {
                             /*show login button if user is not logged in and show user first name if he is logged in*/
                             this.state.loggedIn === false ? <Button
                                     variant="contained"
                                     size="large"
                                     onClick={this.openModalHandler}
-                                    startIcon={<Icon size="large"><AccountCircleIcon /></Icon>}
+                                    startIcon={<Icon size="large"><AccountCircleIcon/></Icon>}
                                     style={css.loginButton}
                                 ><Typography>Login</Typography></Button> :
                                 <div style={css.userDiv}>
@@ -492,7 +492,7 @@ class Header extends Component {
                                         variant="contained"
                                         size="large"
                                         onClick={this.openMenuHandler}
-                                        startIcon={<Icon size="large"><AccountCircleIcon /></Icon>}
+                                        startIcon={<Icon size="large"><AccountCircleIcon/></Icon>}
                                         style={css.user}
                                     ><Typography>{sessionStorage.getItem('first-name')}</Typography></Button>
                                     <Menu className="menu-container"
@@ -501,27 +501,27 @@ class Header extends Component {
                                           keepMounted
                                           open={Boolean(this.state.anchorEl)}
                                           onClose={this.handleMenuClose}
-                                          style={{ top: '40px' }}
+                                          style={{top: '40px'}}
                                     >
                                         <MenuItem><Link
-                                            to={"/profile"} style={{ textDecoration: 'none', color: 'black' }}>My
+                                            to={"/profile"} style={{textDecoration: 'none', color: 'black'}}>My
                                             Profile</Link></MenuItem>
                                         <MenuItem onClick={this.logout}><Link
                                             to={"/"}
-                                            style={{ textDecoration: 'none', color: 'black' }}>Logout</Link></MenuItem>
+                                            style={{textDecoration: 'none', color: 'black'}}>Logout</Link></MenuItem>
                                     </Menu>
                                 </div>
                         }
                         {/*checking for screen size to make app responsive in smaller screen*/}
-                        {this.props.isSmallScreen ? <br /> : null}
+                        {this.props.isSmallScreen ? <br/> : null}
                     </Toolbar>
                 </AppBar>
                 <Modal ariaHideApp={false} isOpen={this.state.modalIsOpen}
                        contentLabel="Login" onRequestClose={this.closeModal}
                        style={costumStyles}>
                     <Tabs className="tabs" value={this.state.value} onChange={this.onTabChange}>
-                        <Tab label="LOGIN" />
-                        <Tab label="SIGNUP" />
+                        <Tab label="LOGIN"/>
+                        <Tab label="SIGNUP"/>
                     </Tabs>
                     {this.state.value === 0 &&
                     <TabContainer>
@@ -529,22 +529,22 @@ class Header extends Component {
                             <FormControl required>
                                 <InputLabel htmlFor="contactno">Contact No.</InputLabel>
                                 <Input id="contactno" type="text" value={this.state.contactno}
-                                       contactno={this.state.contactno} onChange={this.onContactNumberChange} />
+                                       contactno={this.state.contactno} onChange={this.onContactNumberChange}/>
                                 <FormHelperText className={this.state.contactnoRequired}><span
                                     className="red">required</span></FormHelperText>
                                 <FormHelperText className={this.state.loginContactInvalid}><span className="red">Invalid Contact</span></FormHelperText>
                             </FormControl>
-                            <br />
+                            <br/>
                             <FormControl required>
                                 <InputLabel htmlFor="password">Password</InputLabel>
                                 <Input id="password" type="password" value={this.state.password}
-                                       password={this.state.password} onChange={this.onPasswordChange} />
+                                       password={this.state.password} onChange={this.onPasswordChange}/>
                                 <FormHelperText className={this.state.passwordRequired}><span
                                     className="red">required</span></FormHelperText>
-                                <br />
+                                <br/>
                                 <FormHelperText className={this.state.loginErrorSpan}><span
                                     className="red">{this.state.loginError.message}</span></FormHelperText>
-                            </FormControl><br />
+                            </FormControl><br/>
                         </div>
                         <Button variant="contained" color="primary" onClick={this.onLoginClick}>LOGIN</Button>
                     </TabContainer>}
@@ -554,21 +554,21 @@ class Header extends Component {
                             <FormControl required>
                                 <InputLabel htmlFor="firstName">First Name</InputLabel>
                                 <Input id="firstName" type="text" value={this.state.firstName}
-                                       firstname={this.state.firstName} onChange={this.onChangeOfFirstName} />
+                                       firstname={this.state.firstName} onChange={this.onChangeOfFirstName}/>
                                 <FormHelperText className={this.state.firstNameRequired}><span
                                     className="red">required</span></FormHelperText>
                             </FormControl>
-                            <br />
+                            <br/>
                             <FormControl>
                                 <InputLabel htmlFor="lastName">Last Name</InputLabel>
                                 <Input id="lastName" type="text" value={this.state.lastName}
-                                       lastname={this.state.lastName} onChange={this.onChangeOfLastName} />
+                                       lastname={this.state.lastName} onChange={this.onChangeOfLastName}/>
                             </FormControl>
-                            <br />
+                            <br/>
                             <FormControl required>
                                 <InputLabel htmlFor="email">Email</InputLabel>
                                 <Input id="email" type="email" value={this.state.email} email={this.state.email}
-                                       onChange={this.onChangeOfEmail} />
+                                       onChange={this.onChangeOfEmail}/>
                                 <FormHelperText className={this.state.emailRequired}>
                                     <span className="red">required</span>
                                 </FormHelperText>
@@ -576,31 +576,31 @@ class Header extends Component {
                                     <span className="red">Invalid Email</span>
                                 </FormHelperText>
                             </FormControl>
-                            <br />
+                            <br/>
                             <FormControl required>
                                 <InputLabel htmlFor="password">Password</InputLabel>
                                 <Input id="signuppassword" type="password" value={this.state.signUpPassword}
-                                       password={this.state.signUpPassword} onChange={this.onSignUpPasswordChange} />
+                                       password={this.state.signUpPassword} onChange={this.onSignUpPasswordChange}/>
                                 <FormHelperText className={this.state.signUpPasswordRequired}><span
                                     className="red">required</span></FormHelperText>
                                 <FormHelperText className={this.state.signUpPasswordInvalid}><span className="red">Password must contain at least one capital letter, one small letter, one number, and one special character</span></FormHelperText>
                             </FormControl>
-                            <br />
+                            <br/>
                             <FormControl required>
                                 <InputLabel htmlFor="contactno">Contact No.</InputLabel>
                                 <Input id="signupcontactno" type="text" value={this.state.signUpContactno}
                                        contactno={this.state.signUpContactno}
-                                       onChange={this.onSignUpContactNumberChange} />
+                                       onChange={this.onSignUpContactNumberChange}/>
                                 <FormHelperText className={this.state.signUpcontactnoRequired}><span
                                     className="red">required</span></FormHelperText>
                                 <FormHelperText className={this.state.signUpcontactInvalid}><span className="red">Contact No. must contain only numbers and must be 10 digits long</span></FormHelperText>
-                                <br />
+                                <br/>
                                 <FormHelperText className={this.state.signUpErrorSpan}><span
                                     className="red">{this.state.signUpError.message}</span></FormHelperText>
                             </FormControl>
                         </div>
 
-                        <br />
+                        <br/>
 
                         <Button variant="contained" color="primary" onClick={this.onSignUpClick}>SIGNUP</Button>
                     </TabContainer>
@@ -608,7 +608,7 @@ class Header extends Component {
                     }
                 </Modal>
                 <Notification messageText={this.state.messageText} open={this.state.notificationOpen}
-                              onClose={this.closeNotification} />
+                              onClose={this.closeNotification}/>
             </Box>
         );
     }

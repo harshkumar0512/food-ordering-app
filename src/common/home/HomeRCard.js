@@ -11,7 +11,7 @@ export default function HomeRCard(props) {
 
     return (
         <Card className="restaurant-card-main"
-            onClick={props.handleRestaurantNavigation.bind(this, props.restaurant.id)}>
+              onClick={props.handleRestaurantNavigation.bind(this, props.restaurant.id)}>
             <CardActionArea className="restaurant-card">
                 <CardMedia
                     component="img"
@@ -24,18 +24,18 @@ export default function HomeRCard(props) {
                     <Typography gutterBottom variant="h5" component="h2">
                         {props.restaurant.restaurant_name}
                     </Typography>
-                    <br />
+                    <br/>
                     <Typography variant="body2" component="p">
                         {props.restaurant.categories}
                     </Typography>
-                    <br />
+                    <br/>
                 </CardContent>
                 <CardContent className="card-section2">
                     <Typography variant="body1" className="card-rating">
-                        <i className="fa fa-star" /> {props.restaurant.customer_rating} ({props.restaurant.number_customers_rated})
+                        <i className="fa fa-star"/> {props.restaurant.customer_rating} ({props.restaurant.number_customers_rated})
                     </Typography>
                     <Typography variant="body1" className="card-price">
-                        <i className="fa fa-inr" aria-hidden="true" />{props.restaurant.average_price} for two
+                        <i className="fa fa-inr" aria-hidden="true"/>{props.restaurant.average_price} for two
                     </Typography>
                 </CardContent>
             </CardActionArea>

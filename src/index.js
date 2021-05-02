@@ -5,7 +5,7 @@ import * as serviceWorker from './serviceWorker';
 import Controller from "./screens/Controller";
 
 ReactDOM.render(
-    <Controller />,
+    <Controller/>,
     document.getElementById('root')
 );
 
