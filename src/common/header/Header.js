@@ -230,6 +230,7 @@ class Header extends Component {
                 let that = this;
                 const headers = {
                     'Accept': 'application/json',
+                    'Content-Type': 'application/json',
                     'authorization': "Basic " + window.btoa(this.state.contactno + ":" + this.state.password)
                 }
                 fetch("http://localhost:8080/api/customer/login", { method: 'POST', headers }).then(function (response) {
