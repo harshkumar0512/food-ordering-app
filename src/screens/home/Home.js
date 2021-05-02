@@ -1,163 +1,126 @@
-import React, { Component } from 'react';
-import Header from '../../common/header/Header'
+import React, {Component} from "react";
+import HomeRCard from "../../common/home/HomeRCard";
 import './Home.css'
-import { withStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-import CardActions from '@material-ui/core/CardActions';
-import '../../../asset/font-awesome/css/font-awesome.min.css';
+import Box from "@material-ui/core/Box";
+import Typography from "@material-ui/core/Typography";
+import Header from "../../common/header/Header";
+import "../../assets/font-awesome/css/font-awesome.css"
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
-// Define the styles used in the page
-const styles = theme => ({
-    root: {
-        margin: '20px',
-        cursor:"pointer",
-    },
-    media: {
-        paddingTop: '100%',
-    },
-});
+// Constants for varying screen size
+const withMediaQuery = () => Component => props => {
+    const isXtraSmallScreen = useMediaQuery('(max-width:650px)');
+    const isSmallScreen = useMediaQuery('(max-width:1000px)');
+    const isMediumScreen = useMediaQuery('(max-width:1350px)');
+    return <Component isSmallScreen={isSmallScreen} isMediumScreen={isMediumScreen}
+                      isXtraSmallScreen={isXtraSmallScreen} {...props} />;
+};
 
+// Home page rendering
 class Home extends Component {
 
     constructor() {
         super();
         this.state = {
-            restaurantDetails: [],
-            currRestaurantDetails: [],
-            restaurantCategories:'',
-            searchTerm:' ',
-            accessToken:'',
-            customerDetails:'',
-            loggedin:false,
+            restaurants: [],
+            loading: false
         }
+        this.handleRestaurantNavigation = this.handleRestaurantNavigation.bind(this);
     }
 
-    /* Find all images matching the search string */
-    updateRestaurantRecords = (event) => {
-        this.setState({searchTerm : event.target.value});
-        var newAr = this.state.restaurantDetails.filter(function (e) {
-            return e.restaurant_name.toLowerCase().includes(event.target.value.toLowerCase());
-        });
-        this.setState({currRestaurantDetails : newAr});
-    }
+    handleRestaurantNavigation = (restaurantId) => this.restaurantDetails(restaurantId);
 
-    /* Update login details */
-    updateLoginDetails = (accesstoken, customerdetails) => {
-        this.setState({accessToken:accesstoken});
-        this.setState({customerDetails:customerdetails});
-        this.setState({loggedin:true});
-    }
-
-    /* Clear off login details */
-    updateLogout = () => {
-        this.setState({accessToken:""});
-        this.setState({customerDetails:""});
-        this.setState({loggedin:false});
-    }
-
-    componentWillMount() {
-        let data = null;
-        let xhr = new XMLHttpRequest();
-        let that = this;
-
-        // Get the list of restaurants
-        xhr.addEventListener("readystatechange", function () {
-            if (this.readyState === 4) {
-                if (this.status == 200) {
-                    that.setState({
-                        restaurantDetails: JSON.parse(this.responseText).restaurants
-                    });
-                    // Loop thru the entire data
-                    for( let i=0; i<that.state.restaurantDetails.length; i++) {
-                        // Update the Categories for each of the resaurant
-                        let xhra = new Array(that.state.restaurantDetails.length);
-                        xhra[i]= new XMLHttpRequest();
-                        xhra[i].addEventListener("readystatechange", function () {
-                            if (this.readyState === 4) {
-                                that.setState({restaurantCategories: JSON.parse(this.responseText).restaurants[0].categories});
-                                that.state.restaurantDetails[i].categories = that.state.restaurantCategories;
-                            }
-                        });
-                        xhra[i].open("GET", "http://localhost:8080/api/restaurant/name/" + that.state.restaurantDetails[i].restaurant_name);
-                        xhra[i].setRequestHeader("Cache-Control", "no-cache");
-                        xhra[i].send(data);
-                    }
-                    // currRestaurantDetails will dynamically change based on search string
-                    that.setState({currRestaurantDetails : that.state.restaurantDetails});
-                    that.state.currRestaurantDetails.sort((a, b) => (a.customer_rating > b.customer_rating) ? 0 : 1);
-                }
-            }
-        });
-        xhr.open("GET", "http://localhost:8080/api/restaurant");
-        xhr.setRequestHeader("Cache-Control", "no-cache");
-        xhr.send(data);
-    }
-
-    // re-direct to the restaurant details page - pass customer details
-    resturantDetailsHandler = (key) => {
-        let page = "/restaurant/" + key;
-
-        this.props.history.push({
-            pathname: page,
-            state: {
-                loggedin: this.state.loggedin,
-                accessToken: this.state.accessToken,
-                customerDetails: this.state.customerDetails,
-            }
-        });
+    //
+    componentDidMount() {
+        this.mounted = true;
+        this.getRestaurants();
     }
 
     render() {
-        const { classes } = this.props;
-
         return (
             <div>
-                <Header type="Home" history = {this.props.history} onLogin={this.updateLoginDetails} onLogout={this.updateLogout} onSearchSubmit={this.updateRestaurantRecords}/>
-                {this.state.currRestaurantDetails.length === 0 ?
-                    (<div>
-                        No restaurant with the given name.
-                    </div>) :
-                    ( // Show details of all resturants, dynamic
-                        <div className="grid-container">
-                            {this.state.currRestaurantDetails.map((restaurants) => (
-                                <div key={restaurants.id} onClick={() => this.resturantDetailsHandler(restaurants.id)}>
-                                    <   Card className={classes.root}>
-                                        <CardMedia
-                                            className={classes.media}
-                                            image={restaurants.photo_URL}
-                                        />
-                                        <CardContent>
-                                            <Typography variant="h5" color="textPrimary" component="h5">
-                                                {restaurants.restaurant_name}
-                                            </Typography>
-                                            <br></br>
-                                            <Typography variant="body1" color="textPrimary" component="body1">
-                                                {   restaurants.categories}
-                                            </Typography>
-                                            <br></br>
-                                            <br></br>
-                                            <div className = "trailer">
-                                                <div className="star-box">
-                                                    <span> <i className="fa fa-star" aria-hidden="true"></i> &nbsp; {restaurants.customer_rating} &nbsp; ({restaurants.number_customers_rated})</span>
-                                                </div>
-                                                <div className="rupee">
-                                                    <span><i className="fa fa-inr" aria-hidden="true"></i> {restaurants.average_price} for two</span>
-                                                </div>
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-                                </div>
-                            ))}
+                {/* Render components only after mounted is true */}
+                {this.mounted === true ?
+                    <div>
+                        {/* Render Header component */}
+                        <Header searchHandler={this.searchHandler} showSearch={true}/>
+                        {this.state.loading === true ?
+                            <Typography className="loading-spinner" variant="h4"
+                                        color="textSecondary">loading...</Typography>
+                            : ""
+                        }
+                        <div className={this.state.restaurants.length === 0 ? "noRestaurantMsg" : "card-container"}>
+                            {
+                                this.state.restaurants.length === 0 && this.state.loading !== true ?
+                                    <Typography variant="h6">
+                                        No restaurant with the given name.
+                                    </Typography>
+                                    :
+                                    this.state.restaurants.map(restaurant => (
+                                        <Box key={restaurant.id}
+                                             className={this.props.isXtraSmallScreen ? "card-mainXSM" :
+                                                 (this.props.isSmallScreen ? "card-mainSM" :
+                                                     (this.props.isMediumScreen ? "card-mainM" : "card-main"))}>
+                                            {/* Render Restaurant cards components */}
+                                            <HomeRCard restaurant={restaurant}
+                                                       handleRestaurantNavigation={this.handleRestaurantNavigation}/>
+                                        </Box>
+                                    ))}
                         </div>
-                    )
-                }
+                    </div>
+                    : ""}
             </div>
-        )
+        );
+    }
+
+    // Fetches the restaurants from backend
+    getRestaurants = () => {
+        const headers = {'Accept': 'application/json'}
+        let that = this;
+        let url = "http://localhost:8080/api/restaurant";
+        that.setState({loading: true})
+        return fetch(url,
+            {method: 'GET', headers}
+        ).then((response) => {
+            return response.json();
+        }).then((jsonResponse) => {
+            that.setState({
+                restaurants: jsonResponse.restaurants,
+                loading: false
+            })
+        }).catch((error) => {
+            console.log('error user data', error);
+        });
+    }
+
+    // Navigate to Restaurant Details page along with restaurantID clicked
+    restaurantDetails = (restaurantId) => {
+        this.props.history.push("/restaurant/" + restaurantId);
+    }
+
+    // Function to search for Restaurant
+    searchHandler = (event) => {
+        let that = this;
+        const headers = {'Accept': 'application/json'}
+        let url = 'http://localhost:8080/api/restaurant/name/' + event.target.value;
+        that.setState({loading: true})
+        if (event.target.value === "") {
+            this.getRestaurants();
+        } else {
+            return fetch(url,
+                {method: 'GET', headers}
+            ).then((response) => {
+                return response.json();
+            }).then((jsonResponse) => {
+                this.setState({
+                    restaurants: jsonResponse.restaurants,
+                    loading: false
+                })
+            }).catch((error) => {
+                console.log('error user data', error);
+            });
+        }
     }
 }
 
-export default withStyles(styles)(Home);
+export default (withMediaQuery()(Home));
