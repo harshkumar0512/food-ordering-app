@@ -12,31 +12,31 @@ export default function DetailsMenuCard(props) {
     return (
         <div className="mcard-main">
             <Typography variant="button" color="textSecondary"
-                className="mcard-category"> {props.category.category_name} </Typography>
-            <Divider />
+                        className="mcard-category"> {props.category.category_name} </Typography>
+            <Divider/>
             {props.category.item_list.map((item) => (
                 <span key={item.id + "item"} className="item-menu">
                     <Grid item xs={1} lg={1}>
                         <Typography>
                             {item.item_type === "VEG" ?
-                                <i className="fa fa-circle item-veg" aria-hidden="true" />
-                                : <i className="fa fa-circle item-nonveg" aria-hidden="true" />
+                                <i className="fa fa-circle item-veg" aria-hidden="true"/>
+                                : <i className="fa fa-circle item-nonveg" aria-hidden="true"/>
                             }
                         </Typography>
                     </Grid>
                     <Grid item xs={6} lg={7}>
                         <Typography variant={variant} className="item-name"> {item.item_name} </Typography>
                     </Grid>
-                    <Grid item lg={1} />
+                    <Grid item lg={1}/>
                     <Grid item xs={3} lg={2}>
                         <Typography variant={variant}> <i className="fa fa-inr"
-                            aria-hidden="true" /> {(item.price).toFixed(2)} </Typography>
+                                                          aria-hidden="true"/> {(item.price).toFixed(2)} </Typography>
                     </Grid>
-                    <Grid item xs={1} lg={1} />
+                    <Grid item xs={1} lg={1}/>
                     <Grid item xs={1} lg={1}>
                         <IconButton className="item-add" value={item}
-                            onClick={props.handleAddMenuItem.bind(this, item)}>
-                            <AddIcon />
+                                    onClick={props.handleAddMenuItem.bind(this, item)}>
+                            <AddIcon/>
                         </IconButton>
                     </Grid>
                 </span>

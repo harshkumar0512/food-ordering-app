@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Button, Card, CardActions, CardContent, Divider, FormControl, Typography } from '@material-ui/core';
+import {Box, Button, Card, CardActions, CardContent, Divider, FormControl, Typography} from '@material-ui/core';
 
 import OrderItem from "../order/CartItem";
 import "../../assets/font-awesome/css/font-awesome.css"
@@ -27,19 +27,19 @@ export default function OrderSummaryCard(props) {
                             props.orderItems && props.orderItems.length > 0 &&
                             props.orderItems.map(orderItem => (
                                 /* Cart Item component */           <OrderItem key={orderItem.id}
-                                    cartItem={orderItem}
-                                    variant={"subtitle2"} />
+                                                                               cartItem={orderItem}
+                                                                               variant={"subtitle2"}/>
                             ))
                         }
-                        <Typography variant="h3" gutterBottom />
+                        <Typography variant="h3" gutterBottom/>
                     </FormControl>
-                    <Divider variant="fullWidth" />
+                    <Divider variant="fullWidth"/>
                     <FormControl fullWidth margin="normal" size="small" variant="standard">
                         <Box display="flex" flexDirection="row" justifyContent="space-between">
                             <Typography className="net-amount" variant="body2" color="textPrimary">
                                 Net Amount
                             </Typography>
-                            <Typography variant="body2"><i className="fa fa-inr" /> {Number(props.netAmount).toFixed(2)}
+                            <Typography variant="body2"><i className="fa fa-inr"/> {Number(props.netAmount).toFixed(2)}
                             </Typography>
                         </Box>
                     </FormControl>

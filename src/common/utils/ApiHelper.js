@@ -36,4 +36,4 @@ const GetHttpHeaders = (httpMethod, accessToken, content) => {
     return settings;
 }
 
-export { GetEndpointURI, GetHttpHeaders, CallApi };
+export {GetEndpointURI, GetHttpHeaders, CallApi};

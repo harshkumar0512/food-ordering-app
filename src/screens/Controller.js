@@ -18,9 +18,9 @@ class Controller extends Component {
                 <div className="main-container">
                     <Route exact path='/' render={(props) => <Home {...props} baseUrl={this.baseUrl}/>}/>
                     <Route exact path='/profile' render={(props) => <Profile {...props} />}/>
-                    <Route exact path="/checkout" render={(props) => <Checkout {...props} baseUrl={this.baseUrl} />} />
+                    <Route exact path="/checkout" render={(props) => <Checkout {...props} baseUrl={this.baseUrl}/>}/>
                     <Route exact path='/restaurant/:restaurantId'
-                           render={(props) => <Details {...props} baseUrl={this.baseUrl} />} />
+                           render={(props) => <Details {...props} baseUrl={this.baseUrl}/>}/>
                 </div>
             </Router>
         )

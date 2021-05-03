@@ -18,7 +18,7 @@ export default function DetailsCartCard(props) {
                     <div className="cart-header">
                         <i>
                             <Badge className="badge" badgeContent={props.totalItems} color="primary" showZero>
-                                <ShoppingCartIcon />
+                                <ShoppingCartIcon/>
                             </Badge>
                         </i> <span className="cart-title">My Cart</span>
                     </div>
@@ -28,9 +28,9 @@ export default function DetailsCartCard(props) {
                                 {props.cartItems.map(cartItem =>
                                     <span key={cartItem.id}>
                                         <CartItem cartItem={cartItem} handleAddCartItem={props.handleAddCartItem}
-                                            handleRemoveCartItem={props.handleRemoveCartItem}
-                                            editable={true}
-                                            variant={variant} />
+                                                  handleRemoveCartItem={props.handleRemoveCartItem}
+                                                  editable={true}
+                                                  variant={variant}/>
                                     </span>
                                 )}
                             </span>
@@ -40,15 +40,15 @@ export default function DetailsCartCard(props) {
                         <Grid item xs={6} lg={6}>
                             <Typography>TOTAL AMOUNT</Typography>
                         </Grid>
-                        <Grid item xs={2} lg={3} />
+                        <Grid item xs={2} lg={3}/>
                         <Grid item xs={4} lg={3} className="amount">
-                            <Typography><i className="fa fa-inr" aria-hidden="true" /> {(props.totalAmount).toFixed(2)}
+                            <Typography><i className="fa fa-inr" aria-hidden="true"/> {(props.totalAmount).toFixed(2)}
                             </Typography>
                         </Grid>
                     </div>
                     <div className="cart-button">
                         <Button variant="contained" color="primary" className="cButton"
-                            onClick={props.handleCheckoutClick}>
+                                onClick={props.handleCheckoutClick}>
                             CHECKOUT
                         </Button>
                     </div>

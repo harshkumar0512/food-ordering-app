@@ -12,7 +12,7 @@ import {
     Typography
 } from '@material-ui/core';
 
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 
 //media query for responsiveness
 const useStyles = makeStyles({
@@ -78,17 +78,17 @@ export default function SaveAddressForm(props) {
         <Box width="60%" display="flex" flexDirection="column" padding="2%" margin="0%">
             <FormControl required margin="normal" size="small" variant="standard">
                 <InputLabel htmlFor="flatname">Flat / Building No</InputLabel>
-                <Input id="flatname" type="text" value={flatname} onChange={onFlatnameChanged} />
+                <Input id="flatname" type="text" value={flatname} onChange={onFlatnameChanged}/>
                 <FormHelperText error className={display(flatname)}>required</FormHelperText>
             </FormControl>
             <FormControl required margin="normal" size="small" variant="standard">
                 <InputLabel htmlFor="locality">Locality</InputLabel>
-                <Input id="locality" type="text" value={locality} onChange={onLocalityChanged} />
+                <Input id="locality" type="text" value={locality} onChange={onLocalityChanged}/>
                 <FormHelperText error className={display(locality)}>required</FormHelperText>
             </FormControl>
             <FormControl required margin="normal" size="small" variant="standard">
                 <InputLabel htmlFor="city">City</InputLabel>
-                <Input id="city" type="text" value={city} onChange={onCityChanged} />
+                <Input id="city" type="text" value={city} onChange={onCityChanged}/>
                 <FormHelperText error className={display(city)}>required</FormHelperText>
             </FormControl>
             <FormControl required margin="normal" size="small" variant="standard">
@@ -102,13 +102,13 @@ export default function SaveAddressForm(props) {
             </FormControl>
             <FormControl required margin="normal" size="small" variant="standard">
                 <InputLabel htmlFor="pincode">Pincode</InputLabel>
-                <Input id="pincode" type="text" value={pincode} onChange={onPincodeChanged} />
+                <Input id="pincode" type="text" value={pincode} onChange={onPincodeChanged}/>
                 <FormHelperText error className={display(pincode)}>required</FormHelperText>
                 <FormHelperText error className={validate(pincode)}>Pincode must contain only numbers and must be 6
                     digits long</FormHelperText>
             </FormControl>
             <FormControl margin="normal" size="small" variant="standard">
-                <Typography variant="h2" gutterBottom />
+                <Typography variant="h2" gutterBottom/>
                 <Button variant="contained" color="secondary" id="btn-save" onClick={onSave}>SAVE ADDRESS</Button>
             </FormControl>
         </Box>

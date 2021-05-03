@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { Box, Card, CardActions, CardContent, GridList, GridListTile, IconButton, Typography, } from '@material-ui/core';
+import {Box, Card, CardActions, CardContent, GridList, GridListTile, IconButton, Typography,} from '@material-ui/core';
 
-import { CheckCircleRounded } from "@material-ui/icons";
+import {CheckCircleRounded} from "@material-ui/icons";
 
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 
 //media query for responsiveness
 const useStyles = makeStyles((theme) => ({
@@ -81,27 +81,27 @@ export default function AddressesGrid(props) {
                             props.addresses.map((address, index) => (
                                 <GridListTile className={classes.gridTile} key={address.id}>
                                     <Card className={"customer-address " + classes.addressCard + " " +
-                                        (selected[index] && classes.selected)} raised={selected[index] === true}>
+                                    (selected[index] && classes.selected)} raised={selected[index] === true}>
                                         <CardContent className={classes.cardContent}>
                                             <Box display="flex" flexDirection="column" alignItems="flex-start">
                                                 <Typography className="address-line"
-                                                    variant="subtitle2">{address.flat_building_name}</Typography>
+                                                            variant="subtitle2">{address.flat_building_name}</Typography>
                                                 <Typography className="address-line"
-                                                    variant="subtitle2">{address.locality}</Typography>
+                                                            variant="subtitle2">{address.locality}</Typography>
                                                 <Typography className="address-line"
-                                                    variant="subtitle2">{address.city}</Typography>
+                                                            variant="subtitle2">{address.city}</Typography>
                                                 <Typography className="address-line"
-                                                    variant="subtitle2">{address.state.state_name}</Typography>
+                                                            variant="subtitle2">{address.state.state_name}</Typography>
                                                 <Typography className="address-line"
-                                                    variant="subtitle2">{address.pincode}</Typography>
+                                                            variant="subtitle2">{address.pincode}</Typography>
                                             </Box>
                                         </CardContent>
                                         <CardActions disableSpacing className={classes.cardActions}>
                                             <Box width="100%" display="inline" textAlign="right">
                                                 <IconButton size="medium" id={address.id} value={index}
-                                                    onClick={onClick}>
+                                                            onClick={onClick}>
                                                     <CheckCircleRounded fontSize="large"
-                                                        className={getClass(selected[index])} />
+                                                                        className={getClass(selected[index])}/>
                                                 </IconButton>
                                             </Box>
                                         </CardActions>
@@ -110,13 +110,13 @@ export default function AddressesGrid(props) {
                             ))
                         }
                     </GridList>) : (
-                        <Box padding="2%">
-                            <Typography variant="h3" gutterBottom />
-                            <Typography className="payment-method" variant="body1" color="textSecondary">
-                                {"There are no saved addresses! You can save an address using the 'New Address' tab or using your ‘Profile’ menu option."}
-                            </Typography>
-                        </Box>
-                    )
+                    <Box padding="2%">
+                        <Typography variant="h3" gutterBottom/>
+                        <Typography className="payment-method" variant="body1" color="textSecondary">
+                            {"There are no saved addresses! You can save an address using the 'New Address' tab or using your ‘Profile’ menu option."}
+                        </Typography>
+                    </Box>
+                )
             }
         </Box>
     );
