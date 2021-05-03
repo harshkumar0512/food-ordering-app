@@ -58,7 +58,7 @@ const getState = (length, index) => {
 }
 
 // Component for Existing Address grid section
-export default function AddressesGrid(props) {
+export default function AddressGrid(props) {
     const [selected, setSelected] = React.useState(
         (props.addresses !== null && props.addresses.length > 0) ?
             [...getState(props.addresses.length, props.selectedIndex)] : []

@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import Header from "../../common/header/Header";
 import Typography from "@material-ui/core/Typography";
 import './Details.css';
-import DetailsRCard from "../../common/details/DetailsRCard";
+import DetailsRestaurantCard from "../../common/details/DetailsRestaurantCard";
 import DetailsMenuCard from "../../common/details/DetailsMenuCard";
 import DetailsCartCard from "../../common/details/DetailsCartCard";
 import Notification from "../../common/notification/Notification";
@@ -65,7 +65,7 @@ class Details extends Component {
 
                         {/*Restaurant Details section*/}
                         <div className="restaurant-section">
-                            <DetailsRCard restaurant={this.state.restaurant} isSmallScreen={this.props.isSmallScreen}/>
+                            <DetailsRestaurantCard restaurant={this.state.restaurant} isSmallScreen={this.props.isSmallScreen}/>
                         </div>
                         <div className={this.props.isSmallScreen ? "section2SM" : "section2"}>
 

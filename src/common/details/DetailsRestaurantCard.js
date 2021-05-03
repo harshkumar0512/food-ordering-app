@@ -2,7 +2,7 @@ import React from "react";
 import Typography from "@material-ui/core/Typography";
 
 // Component for Details Restaurant details Card section
-export default function DetailsRCard(props) {
+export default function DetailsRestaurantCard(props) {
     return (
         <div className={props.isSmallScreen ? "rcard-mainSM" : "rcard-main"}>
             <div className={props.isSmallScreen ? "rcard-leftSM" : "rcard-left"}>

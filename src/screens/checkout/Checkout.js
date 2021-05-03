@@ -17,7 +17,7 @@ import {
 import {withStyles} from '@material-ui/core/styles';
 
 import {Redirect} from "react-router-dom";
-import AddressesGrid from "../../common/checkout/AddressesGrid";
+import AddressGrid from "../../common/checkout/AddressGrid";
 import PaymentOptions from "../../common/checkout/PaymentOptions";
 import SaveAddressForm from "../../common/checkout/SaveAddressForm";
 import OrderSummaryCard from "../../common/checkout/OrderSummaryCard";
@@ -213,9 +213,9 @@ class Checkout extends React.Component {
                         </Tabs>
                     </AppBar>
                         <Box display={this.state.activeTab === 0 ? "block" : "none"}>
-                            <AddressesGrid addresses={this.state.addresses} cols={(this.props.isSmallScreen) ? 2 : 3}
-                                           setAddressId={this.setAddressId}
-                                           selectedIndex={this.state.addressIndex}/>
+                            <AddressGrid addresses={this.state.addresses} cols={(this.props.isSmallScreen) ? 2 : 3}
+                                         setAddressId={this.setAddressId}
+                                         selectedIndex={this.state.addressIndex}/>
                         </Box>
                         <Box display={this.state.activeTab === 1 ? "block" : "none"}>
                             <SaveAddressForm states={this.state.states} handleSaveAddressOK={this.saveAddress}/>
