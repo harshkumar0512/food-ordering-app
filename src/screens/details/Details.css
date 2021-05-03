@@ -75,26 +75,35 @@
 }
 
 .bottom-container {
-    background-color: yellow;
     display: flex;
     width: 100%;
 }
 
 .menu-container {
-    background-color: pink;
     width: 60%;
     margin: 2.5%;
-}
-
-.cart-container {
-    background-color: red;
-    width: 40%;
-    height: 100%;
 }
 
 .category-divider {
     padding: 0px;
     margin: 0px;
+}
+
+.cart-container {
+    width: 40%;
+    height: 100%;
+    margin: 2%;
+}
+
+.cart-title {
+    font-size: 120%;
+    font-weight: bold;
+    margin-left: 10%;
+}
+
+.total-amount {
+    font-weight: bold;
+    text-align: right;
 }
 
 .VEG {
@@ -118,6 +127,11 @@
 
 .bold {
     font-weight: bold;
+}
+
+.back {
+    padding: 1%;
+    display: none;
 }
 
 @media (max-width: 992px) {
@@ -161,6 +175,9 @@
         width: 95%;
     }
     .cart-container {
-        width: 100%;
+        width: 95%;
+    }
+    .back {
+        display: block;
     }
 }
