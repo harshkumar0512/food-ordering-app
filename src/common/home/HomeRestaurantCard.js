@@ -7,7 +7,7 @@ import Card from "@material-ui/core/Card";
 import "../../assets/font-awesome/css/font-awesome.css"
 
 // Component for home restaurant card
-export default function HomeRCard(props) {
+export default function HomeRestaurantCard(props) {
 
     return (
         <Card className="restaurant-card-main"

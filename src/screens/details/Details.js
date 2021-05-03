@@ -1,290 +1,222 @@
-import React, { Component } from 'react';
-import '../details/Details.css';
-import Header from '../../common/header/Header';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar, faCircle, faRupeeSign } from '@fortawesome/free-solid-svg-icons';
-import { faStopCircle } from '@fortawesome/free-regular-svg-icons';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import Add from '@material-ui/icons/Add';
-import Remove from '@material-ui/icons/Remove';
-import Snackbar from '@material-ui/core/Snackbar';
-import SnackbarContent from '@material-ui/core/SnackbarContent';
-import CloseIcon from '@material-ui/icons/Close';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import Card from '@material-ui/core/Card';
-import Badge from '@material-ui/core/Badge';
-import Button from '@material-ui/core/Button';
-import { Link } from 'react-router-dom';
-import Typography from '@material-ui/core/Typography';
+import React, {Component} from "react";
+import Header from "../../common/header/Header";
+import Typography from "@material-ui/core/Typography";
+import './Details.css';
+import DetailsRestaurantCard from "../../common/details/DetailsRestaurantCard";
+import DetailsMenuCard from "../../common/details/DetailsMenuCard";
+import DetailsCartCard from "../../common/details/DetailsCartCard";
+import Notification from "../../common/notification/Notification";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
-library.add(faStar, faCircle, faRupeeSign, faStopCircle)
+// Constants for varying screen size
+const withMediaQuery = () => Component => props => {
+    const isSmallScreen = useMediaQuery('(max-width:700px)');
+    const isMediumScreen = useMediaQuery('(max-width:1000px)');
+    return <Component isSmallScreen={isSmallScreen} isMediumScreen={isMediumScreen} {...props} />;
+};
 
+// Details page rendering
 class Details extends Component {
-
     constructor() {
         super();
         this.state = {
-            restaurantDetail: {},
-            address: {},
-            categories: [],
-            cartCount: 0,
+            restaurant: null,
+            cartItem: {id: null, name: null, type: null, quantity: 0, price: 0, itemPrice: 0},
             cartItems: [],
-            totalCartPrice: 0,
-            snackBarOpen: false,
-            snackBarMessage: ""
+            totalAmount: 0,
+            totalItems: 0,
+            notificationOpen: false,
+            loggedIn: sessionStorage.getItem("access-token") !== null,
         }
+        this.handleAddMenuItem = this.handleAddMenuItem.bind(this);
+        this.handleAddCartItem = this.handleAddCartItem.bind(this);
+        this.handleRemoveCartItem = this.handleRemoveCartItem.bind(this);
+        this.handleCheckoutClick = this.handleCheckoutClick.bind(this);
+        this.closeNotification = this.closeNotification.bind(this);
+        this.msgItemAdded = "Item added to cart!";
+        this.msgItemRemoved = "item removed from cart!"
+        this.msgItemIncreased = "Item quantity increased by 1!";
+        this.msgItemDecreased = "Item quantity decreased by 1!";
+        this.msgLoginNotOk = "Please login first!";
+        this.msgEmptyCart = "Please add an item to your cart!";
     }
 
-    componentWillMount() {
-        let that = this;
-        let data = null;
-        let xhrRestaurants = new XMLHttpRequest()
+    handleAddMenuItem = (item) => this.addToCartHandler(item);
+    handleAddCartItem = (item) => this.increaseCartItemHandler(item);
+    handleRemoveCartItem = (item) => this.decreaseCartItemHandler(item);
+    handleCheckoutClick = () => this.checkout();
 
-        xhrRestaurants.addEventListener("readystatechange", function () {
-            if (this.readyState === 4) {
-                let response = JSON.parse(this.responseText);
-                that.setState({
-                    restaurantDetail: response,
-                    address: response.address,
-                    categories: response.categories
-                });
-            }
-        });
-        xhrRestaurants.open('GET', this.props.baseUrl + 'restaurant/' + this.props.match.params.restaurantId);
-        xhrRestaurants.setRequestHeader("Content-Type", "application/json");
-        xhrRestaurants.setRequestHeader("Cache-Control", "no-cache");
-        xhrRestaurants.send(data);
-    }
-
-    addItemClickHandler(item, isAddedFromCart) {
-        const itemIndex = this.state.cartItems.findIndex(cartItem => cartItem.id === item.id);
-        var updatedCartItems = this.state.cartItems;
-
-        if (itemIndex === -1) {
-            item.quantity = 1;
-            item.cartPrice = item.price;
-            updatedCartItems.push(item);
-        } else {
-            updatedCartItems[itemIndex].quantity++;
-            updatedCartItems[itemIndex].cartPrice = item.price * updatedCartItems[itemIndex].quantity;
-        }
-
-        this.setState({ cartItems: updatedCartItems });
-        this.setState({ cartCount: this.state.cartCount + 1 });
-        this.setState({ totalCartPrice: this.state.totalCartPrice + item.price });
-        this.setState({ snackBarOpen: true });
-        this.setState({ snackBarMessage: isAddedFromCart ? "Item quantity increased by 1!" : "Item added to cart!" });
-    }
-
-    removeItemClickHandler(item) {
-        const itemIndex = this.state.cartItems.findIndex(cartItem => cartItem.id === item.id);
-        var updatedCartItems = this.state.cartItems;
-
-        if (item.quantity === 1) {
-            updatedCartItems.splice(itemIndex, 1);
-            this.setState({ snackBarOpen: true });
-            this.setState({ snackBarMessage: "Item removed from cart!" });
-        } else {
-            updatedCartItems[itemIndex].quantity--;
-            updatedCartItems[itemIndex].cartPrice = item.price * updatedCartItems[itemIndex].quantity;
-            this.setState({ snackBarOpen: true });
-            this.setState({ snackBarMessage: "Item quantity decreased by 1!" });
-        }
-
-        this.setState({ cartItems: updatedCartItems });
-        this.setState({ cartCount: this.state.cartCount - 1 });
-        this.setState({ totalCartPrice: this.state.totalCartPrice - item.price });
-    }
-
-    checkoutClickHandler = () => {
-        if (this.state.cartItems.length === 0 && this.state.cartCount === 0) {
-            this.setState({ snackBarOpen: true });
-            this.setState({ snackBarMessage: "Please add an item to your cart!" });
-            return;
-        }
-        if (sessionStorage.getItem("access-token") === null) {
-            this.setState({ snackBarOpen: true });
-            this.setState({ snackBarMessage: "Please login first!" });
-            return;
-        }
-        /* Need to check navigation part */
-        this.props.history.push({
-            pathname: 'checkout',
-            restaurantName: this.state.restaurantDetail.restaurant_name,
-            cartItems: this.state.cartItems,
-            totalCartPrice: this.state.totalCartPrice
-        });
-    }
-
-    closeSnackbar = () => {
-        this.setState({ snackBarOpen: false });
+    componentDidMount() {
+        this.getRestaurant();
     }
 
     render() {
-
-        const restaurantDetail = this.state.restaurantDetail;
-        const address = this.state.address;
-        const categories = this.state.categories;
-        const cartItems = this.state.cartItems;
-        const totalCartPrice = this.state.totalCartPrice;
-
         return (
-            <div className='details-container'>
-                <Header {...this.props} showSearch={false} />
+            <div>
+                {this.state.loading === true ?
+                    <Typography className="loading-spinner" variant="h4"
+                                color="textSecondary">loading...</Typography>
+                    : ""
+                }
+                {this.state.restaurant !== null ?
+                    <div>
+                        {/*Header section*/}
+                        <Header searchHandler={this.searchHandler}/>
 
-                <Link to={"/"}>
-                    <Typography className='back' >
-                        &#60; Back
-                </Typography>
-                </Link>
+                        {/*Restaurant Details section*/}
+                        <div className="restaurant-section">
+                            <DetailsRestaurantCard restaurant={this.state.restaurant} isSmallScreen={this.props.isSmallScreen}/>
+                        </div>
+                        <div className={this.props.isSmallScreen ? "section2SM" : "section2"}>
 
-                <div className='restaurant-detail-container'>
-                    <div className='restaurant-image-container'>
-                        <img className='restaurant-image' src={restaurantDetail.photo_URL} />
-                    </div>
-                    <div className='restaurant-info-container'>
-                        <div className='restaurant-info'>
-                            <p className='restaurant-title'>{restaurantDetail.restaurant_name}</p>
-                            <p className='restaurant-locality' style={{ marginTop: '3%' }}>{address.locality}</p>
-                            <p className='restaurant-categories' style={{ marginTop: '3%' }}>
-                                {categories.map((category) =>
-                                (
-                                    <span className="category-item" key={category.id}>{category.category_name}</span>
-                                )
-                                )}
-                            </p>
-                            <div className='restaurant-rating-cost' style={{ marginTop: '3%' }}>
-                                <div className='restaurant-rating'>
-                                    <FontAwesomeIcon icon="star" /> {restaurantDetail.customer_rating}
-                                    <p className="title-text">AVERAGE RATING BY<span
-                                        className="bold"> {restaurantDetail.number_customers_rated} </span> CUSTOMERS </p>
-                                </div>
-                                <div className='restaurant-average-cost'>
-                                    <FontAwesomeIcon icon="rupee-sign" /> {restaurantDetail.average_price}
-                                    <p className="title-text">AVERAGE COST FOR TWO PEOPLE</p>
-                                </div>
+                            {/*Restaurant Menu section*/}
+                            <div className={this.props.isSmallScreen ? "item-sectionSM" : "item-section"}>
+                                {this.state.restaurant.categories.map((category, index) => (
+                                    <span key={category.id + "category"}>
+                                        <DetailsMenuCard category={category}
+                                                         handleAddMenuItem={this.handleAddMenuItem}
+                                                         isSmallScreen={this.props.isSmallScreen}
+                                                         isMediumScreen={this.props.isMediumScreen}/>
+                                    </span>
+                                ))
+                                }
+                            </div>
+
+                            {/*Checkout Cart section*/}
+                            <div
+                                className={this.props.isSmallScreen ? "cart-sectionSM" : (this.props.isMediumScreen ? "cart-sectionM" : "cart-section")}>
+                                <DetailsCartCard cartItems={this.state.cartItems}
+                                                 totalAmount={this.state.totalAmount}
+                                                 totalItems={this.state.totalItems}
+                                                 handleAddCartItem={this.handleAddCartItem}
+                                                 handleRemoveCartItem={this.handleRemoveCartItem}
+                                                 handleCheckoutClick={this.handleCheckoutClick}
+                                                 isSmallScreen={this.props.isSmallScreen}
+                                                 isMediumScreen={this.props.isMediumScreen}/>
                             </div>
                         </div>
+                        {this.state.notificationOpen === true ?
+                            <Notification messageText={this.state.messageText} open={this.state.notificationOpen}
+                                          onClose={this.closeNotification}/>
+                            : ""
+                        }
                     </div>
-                </div>
-                <div className='bottom-container'>
-                    <div className='menu-container'>
-                        {categories.map((category) =>
-                        (
-                            <div key={category.id}>
-                                <p style={{ textTransform: 'uppercase' }}>{category.category_name}</p>
-                                <Divider className="category-divider" />
-                                {category.item_list.map((item) => (
-                                    <table key={item.id} width='100%'>
-                                        <tbody>
-                                            <tr>
-                                                <td width='10%' className={item.item_type}>
-                                                    <FontAwesomeIcon icon="circle" />
-                                                </td>
-                                                <td width="50%" className="item-name">
-                                                    {item.item_name}
-                                                </td>
-                                                <td width="30%">
-                                                    <FontAwesomeIcon icon="rupee-sign" /> {(item.price).toFixed(2)}
-                                                </td>
-                                                <td>
-                                                    <IconButton onClick={() => this.addItemClickHandler(item, false)} >
-                                                        <Add />
-                                                    </IconButton>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                ))}
-                            </div>
-                        ))}
-                    </div>
-                    <div className='cart-container'>
-                        <Card style={{ padding: '5%' }}>
-                            <div style={{ marginTop: '2%' }}>
-                                <Badge badgeContent={this.state.cartCount > 0 ? this.state.cartCount : '0'}
-                                    color="primary">
-                                    <ShoppingCartIcon />
-                                </Badge>
-                                <span className='cart-title'>My Cart</span>
-                            </div>
-                            <br /><br />
-                            {cartItems.map((cartItem) => (
-                                <table key={cartItem.id}>
-                                    <tbody>
-                                        <tr height='10px'>
-                                            <td width="10%" className={cartItem.item_type}>
-                                                <FontAwesomeIcon className={cartItem.item_type} icon={["far", "stop-circle"]} />
-                                            </td>
-                                            <td width="30%" className="item-name">
-                                                {cartItem.item_name}
-                                            </td>
-                                            <td width="5%">
-                                                <IconButton onClick={() => this.removeItemClickHandler(cartItem)}>
-                                                    <Remove />
-                                                </IconButton>
-                                            </td>
-                                            <td width="5%" style={{ textAlign: 'center' }}>
-                                                {cartItem.quantity}
-                                            </td>
-                                            <td width="5%">
-                                                <IconButton onClick={() => this.addItemClickHandler(cartItem, true)}>
-                                                    <Add />
-                                                </IconButton>
-                                            </td>
-                                            <td width="40%" style={{ color: 'gray', textAlign: 'right' }}>
-                                                <FontAwesomeIcon icon="rupee-sign" /> {(cartItem.cartPrice).toFixed(2)}
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            ))}
-                            <br /><br />
-                            <table width='100%'>
-                                <tbody>
-                                    <tr>
-                                        <td width='50%' className='bold'>TOTAL AMOUNT</td>
-                                        <td className='total-amount'><FontAwesomeIcon icon="rupee-sign" /> {(totalCartPrice).toFixed(2)}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <br /><br />
-                            <Button variant="contained" color="primary" style={{ width: '100%' }}
-                                onClick={this.checkoutClickHandler}>
-                                CHECKOUT
-                            </Button>
-                        </Card>
-                    </div>
-                </div>
-                <Snackbar
-                    anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'left',
-                    }}
-                    open={this.state.snackBarOpen}
-                    autoHideDuration={6000}
-                    onClose={this.closeSnackbar}
-                >
-                    <SnackbarContent
-                        onClose={this.closeSnackbar}
-                        message={this.state.snackBarMessage}
-                        action={[
-                            <IconButton
-                                key="close"
-                                aria-label="Close"
-                                color="inherit"
-                                onClick={this.closeSnackbar}
-                            >
-                                <CloseIcon />
-                            </IconButton>,
-                        ]}
-                    />
-                </Snackbar>
+                    : ""}
             </div>
         )
     }
+
+    // Fetches the restaurant from backend
+    getRestaurant() {
+        const headers = {'Accept': 'application/json'};
+        let that = this;
+        let url = this.props.baseUrl + '/restaurant/' + this.props.match.params.restaurantId;
+        that.setState({loading: true})
+        return fetch(url,
+            {method: 'GET', headers}
+        ).then((response) => {
+            return response.json();
+        }).then((jsonResponse) => {
+            this.setState({
+                restaurant: jsonResponse,
+                address: jsonResponse.address,
+                categories: jsonResponse.categories,
+                loading: false,
+            })
+        }).catch((error) => {
+            console.log('error user data', error);
+        });
+    }
+
+    // show notification on Snackerbar
+    showNotification = (message) => this.setState({messageText: message, notificationOpen: true});
+    // close Snackerbar notification
+    closeNotification = () => this.setState({messageText: null, notificationOpen: false});
+
+    // function to handle item into cart
+    addToCartHandler = (item) => {
+        let totalAmount = this.state.totalAmount;
+        let totalItems = this.state.totalItems;
+        totalAmount += item.price;
+        totalItems += 1;
+
+        let newItem = this.state.cartItem;
+        newItem.id = item.id;
+        newItem.name = item.item_name;
+        newItem.type = item.item_type;
+        newItem.quantity = 1;
+        newItem.price = item.price * newItem.quantity;
+        newItem.itemPrice = item.price;
+
+        if (this.state.cartItems.length !== 0 && this.state.cartItems.some(cItem => (cItem.id === item.id))) {
+            const index = this.state.cartItems.findIndex(cItem => cItem.id === item.id);
+
+            const updateItem = this.state.cartItems[index];
+            updateItem.quantity = this.state.cartItems[index].quantity + 1;
+            updateItem.price = this.state.cartItems[index].price + item.price;
+        } else {
+            this.setState({cartItem: newItem})
+            this.setState({cartItem: {}});
+            this.state.cartItems.push(this.state.cartItem);
+        }
+        this.setState({totalAmount: totalAmount})
+        this.setState({totalItems: totalItems});
+        this.showNotification(this.msgItemAdded);
+    }
+
+    // function to increase quantity of item in cart
+    increaseCartItemHandler = (item) => {
+        const index = this.state.cartItems.findIndex(cItem => cItem.id === item.id);
+        const updateItem = this.state.cartItems[index];
+        updateItem.quantity = this.state.cartItems[index].quantity + 1;
+        updateItem.price = this.state.cartItems[index].price + item.itemPrice;
+        this.setState(item);
+        let totalAmount = this.state.totalAmount;
+        let totalItems = this.state.totalItems;
+        totalAmount += item.itemPrice;
+        totalItems += 1;
+        this.setState({totalAmount: totalAmount})
+        this.setState({totalItems: totalItems});
+        this.showNotification(this.msgItemIncreased);
+    }
+
+    // function to decrease quantity of item in cart
+    decreaseCartItemHandler = (item) => {
+        const index = this.state.cartItems.findIndex(cItem => cItem.id === item.id);
+        const updateItem = this.state.cartItems[index];
+        if (updateItem.quantity === 1) {
+            this.state.cartItems.splice(index, 1);
+            this.showNotification(this.msgItemRemoved);
+        } else if (updateItem.quantity > 1) {
+            updateItem.quantity = this.state.cartItems[index].quantity - 1;
+            updateItem.price = this.state.cartItems[index].price - item.itemPrice;
+            this.setState(item);
+            this.showNotification(this.msgItemDecreased);
+        }
+        let totalAmount = this.state.totalAmount;
+        let totalItems = this.state.totalItems;
+        totalAmount -= item.itemPrice;
+        totalItems -= 1;
+        this.setState({totalAmount: totalAmount})
+        this.setState({totalItems: totalItems});
+    }
+
+    // function to navigate to checkout page
+    checkout = () => {
+        if (this.state.cartItems.length === 0) {
+            this.showNotification(this.msgEmptyCart);
+        } else if (this.state.cartItems.length > 0 && sessionStorage.getItem("access-token") == null) {
+            this.showNotification(this.msgLoginNotOk);
+        } else {
+            this.props.history.push({
+                pathname: '/checkout/',
+                state: {
+                    orderItems: this.state.cartItems,
+                    totalAmount: this.state.totalAmount, restaurant: this.state.restaurant
+                }
+            });
+        }
+    }
 }
 
-export default Details;
+export default (withMediaQuery()(Details));

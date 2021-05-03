@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import HomeRCard from "../../common/home/HomeRCard";
+import HomeRestaurantCard from "../../common/home/HomeRestaurantCard";
 import './Home.css'
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
@@ -62,8 +62,8 @@ class Home extends Component {
                                                  (this.props.isSmallScreen ? "card-mainSM" :
                                                      (this.props.isMediumScreen ? "card-mainM" : "card-main"))}>
                                             {/* Render Restaurant cards components */}
-                                            <HomeRCard restaurant={restaurant}
-                                                       handleRestaurantNavigation={this.handleRestaurantNavigation}/>
+                                            <HomeRestaurantCard restaurant={restaurant}
+                                                                handleRestaurantNavigation={this.handleRestaurantNavigation}/>
                                         </Box>
                                     ))}
                         </div>

@@ -1,183 +1,174 @@
-.details-container {
-    width: 100%;
-    height: 100%;
-}
-
-.restaurant-detail-container {
+.rcard-main {
+    padding: 25px;
+    background: #e7e7e7;
+    overflow: hidden;
     display: flex;
+}
+
+.rcard-mainSM {
+    padding: 25px;
+    background: #e7e7e7;
+    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.rcard-left {
+    flex: 25%;
+}
+
+.rcard-leftSM {
     width: 100%;
 }
 
-.restaurant-image-container {
-    background-color: #E8E8E8;
-    width: 25%;
-    height: 100%;
-    float: left;
-}
-
-.restaurant-image {
-    margin: 7%;
+.rcard-img {
+    min-width: 250px;
+    width: 100%;
     height: 200px;
-    width: 86%;
 }
 
-.restaurant-info-container {
-    background-color: #E8E8E8;
-    width: 75%;
-    float: right;
-    height: 100%;
+.rcard-right {
+    padding-left: 20px;
+    flex: 75%;
 }
 
-.restaurant-info {
-    height: 100%;
-    margin: 3%;
+.rcard-rightSM {
+    margin: auto;
+    width: 100%;
+    text-align: center;
 }
 
-.restaurant-title {
-    margin: 0px;
-    font-size: 150%;
-    font-weight: bold;
-    text-align: left;
-}
-
-.restaurant-locality {
-    font-size: 120%;
+.upper-case {
     text-transform: uppercase;
-    text-align: left;
 }
 
-.restaurant-categories {
-    text-align: left;
+.rcard-category {
+    font-weight: bold;
 }
 
-.category-item:after {
-    content: ", ";
-}
-
-.category-item:last-child:after {
-    content: "";
-}
-
-.restaurant-rating-cost {
-    width: 100%;
-}
-
-.restaurant-rating {
-    float: left;
-    width: 40%;
-    text-align: left;
-}
-
-.restaurant-average-cost {
-    float: right;
-    width: 40%;
-    text-align: left;
-}
-
-.bottom-container {
+.rcard-right-bottom {
+    /*    display: flex;
+    justify-content: space-between;*/
     display: flex;
-    width: 100%;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
 }
 
-.menu-container {
-    width: 60%;
-    margin: 2.5%;
+.rcard-right-bottom div {
+    width: 50%;
 }
 
-.category-divider {
-    padding: 0px;
-    margin: 0px;
+.section2 {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 20px;
+    margin-right: 40px;
 }
 
-.cart-container {
+.section2SM {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: auto;
+}
+
+.item-section {
+    padding: 25px;
     width: 40%;
-    height: 100%;
-    margin: 2%;
 }
 
-.cart-title {
-    font-size: 120%;
-    font-weight: bold;
-    margin-left: 10%;
+.item-sectionSM {
+    padding: 25px;
+    flex: 100%;
 }
 
-.total-amount {
-    font-weight: bold;
-    text-align: right;
+.mcard-category {
+    font-weight: bold !important;
 }
 
-.VEG {
-    color: green;
+.mcard-main {
+    padding: 10px 0;
 }
 
-.NON_VEG {
-    color: red;
+.item-veg {
+    color: #5a9a5a;
+}
+
+.item-nonveg {
+    color: #be4a47;
 }
 
 .item-name {
-    margin: 0;
-    padding: 0;
     text-transform: capitalize;
-    text-align: left;
 }
 
-.title-text {
-    color: grey;
+.item-add {
+    font-size: small !important;
+    padding: 0 !important;
 }
 
-.bold {
+.item-menu {
+    display: flex;
+    padding: 5px 0;
+    justify-content: right;
+}
+
+.cart-section {
+    padding: 25px;
+    width: 35%;
+}
+
+.cart-sectionM {
+    padding: 25px;
+    width: 45%;
+}
+
+.cart-sectionSM {
+    padding: 25px;
+    width: 100%;
+}
+
+.cart-main {
+    /*    padding: 25px !important;*/
+}
+
+.cart-header {
     font-weight: bold;
+    font-style: initial;
+    padding-bottom: 15px;
 }
 
-.back {
-    padding: 1%;
-    display: none;
+.cart-header i {
+    padding-right: 20px;
 }
 
-@media (max-width: 992px) {
-    .restaurant-detail-container {
-        display: block;
-    }
-    .restaurant-image-container {
-        width: 100%;
-    }
-    .restaurant-info-container {
-        width: 100%;
-    }
-    .restaurant-image {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-        margin-top: 2%;
-        margin-bottom: 2%;
-        width: 65%;
-        height: 180px;
-    }
-    .restaurant-title {
-        text-align: center;
-    }
-    .restaurant-locality {
-        text-align: center;
-    }
-    .restaurant-categories {
-        text-align: center;
-    }
-    .restaurant-rating {
-        text-align: center;
-    }
-    .restaurant-rating {
-        text-align: center;
-    }
-    .bottom-container {
-        display: block;
-    }
-    .menu-container {
-        width: 95%;
-    }
-    .cart-container {
-        width: 95%;
-    }
-    .back {
-        display: block;
-    }
+.cart-title {
+    font-size: x-large;
+}
+
+.cart-total {
+    display: flex;
+    margin: 10px auto auto;
+}
+
+.cart-total p {
+    font-weight: bold !important;
+}
+
+.badge {
+    font-style: initial !important;
+}
+
+.badge span {
+    z-index: 0 !important;
+}
+
+.cart-button button {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.amount {
+    text-align: end !important;
 }
