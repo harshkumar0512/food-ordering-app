@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import Home from '../screens/home/Home';
 import Profile from "../screens/profile/Profile"
-import Details from '../screens/details/Details'
-import Checkout from '../screens/checkout/Checkout'
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import Checkout from "./checkout/Checkout";
 import Details from "./details/Details";
