@@ -22,7 +22,3 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# not my task
-/src/screens/details
-/src/common/details
-/src/common/utils
