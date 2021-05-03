@@ -1,0 +1,183 @@
+.details-container {
+    width: 100%;
+    height: 100%;
+}
+
+.restaurant-detail-container {
+    display: flex;
+    width: 100%;
+}
+
+.restaurant-image-container {
+    background-color: #E8E8E8;
+    width: 25%;
+    height: 100%;
+    float: left;
+}
+
+.restaurant-image {
+    margin: 7%;
+    height: 200px;
+    width: 86%;
+}
+
+.restaurant-info-container {
+    background-color: #E8E8E8;
+    width: 75%;
+    float: right;
+    height: 100%;
+}
+
+.restaurant-info {
+    height: 100%;
+    margin: 3%;
+}
+
+.restaurant-title {
+    margin: 0px;
+    font-size: 150%;
+    font-weight: bold;
+    text-align: left;
+}
+
+.restaurant-locality {
+    font-size: 120%;
+    text-transform: uppercase;
+    text-align: left;
+}
+
+.restaurant-categories {
+    text-align: left;
+}
+
+.category-item:after {
+    content: ", ";
+}
+
+.category-item:last-child:after {
+    content: "";
+}
+
+.restaurant-rating-cost {
+    width: 100%;
+}
+
+.restaurant-rating {
+    float: left;
+    width: 40%;
+    text-align: left;
+}
+
+.restaurant-average-cost {
+    float: right;
+    width: 40%;
+    text-align: left;
+}
+
+.bottom-container {
+    display: flex;
+    width: 100%;
+}
+
+.menu-container {
+    width: 60%;
+    margin: 2.5%;
+}
+
+.category-divider {
+    padding: 0px;
+    margin: 0px;
+}
+
+.cart-container {
+    width: 40%;
+    height: 100%;
+    margin: 2%;
+}
+
+.cart-title {
+    font-size: 120%;
+    font-weight: bold;
+    margin-left: 10%;
+}
+
+.total-amount {
+    font-weight: bold;
+    text-align: right;
+}
+
+.VEG {
+    color: green;
+}
+
+.NON_VEG {
+    color: red;
+}
+
+.item-name {
+    margin: 0;
+    padding: 0;
+    text-transform: capitalize;
+    text-align: left;
+}
+
+.title-text {
+    color: grey;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.back {
+    padding: 1%;
+    display: none;
+}
+
+@media (max-width: 992px) {
+    .restaurant-detail-container {
+        display: block;
+    }
+    .restaurant-image-container {
+        width: 100%;
+    }
+    .restaurant-info-container {
+        width: 100%;
+    }
+    .restaurant-image {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 2%;
+        margin-bottom: 2%;
+        width: 65%;
+        height: 180px;
+    }
+    .restaurant-title {
+        text-align: center;
+    }
+    .restaurant-locality {
+        text-align: center;
+    }
+    .restaurant-categories {
+        text-align: center;
+    }
+    .restaurant-rating {
+        text-align: center;
+    }
+    .restaurant-rating {
+        text-align: center;
+    }
+    .bottom-container {
+        display: block;
+    }
+    .menu-container {
+        width: 95%;
+    }
+    .cart-container {
+        width: 95%;
+    }
+    .back {
+        display: block;
+    }
+}
